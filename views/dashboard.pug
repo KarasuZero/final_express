@@ -1,0 +1,21 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Dashboard
+  body
+    h1 Welcome to the Dashboard
+    if user
+      div#greeting
+        | Hello, #{user.name}!
+    button(onclick='logout()') Logout
+    script.
+      function logout() {
+          fetch('/logout')
+              .then(() => {
+                  window.location.href = '/login';
+              })
+              .catch((err) => {
+                  console.error('Error logging out:', err);
+              });
+      }

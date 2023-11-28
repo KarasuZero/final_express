@@ -1,0 +1,11 @@
+POST http://localhost:4200/login
+Content-Type: application/json
+
+{
+    "email": "bobuJ@email.com",
+    "password": "pass123"
+}
+
+###
+GET http://localhost:4200/dashboard
+

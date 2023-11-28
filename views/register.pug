@@ -1,0 +1,22 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Register
+  body
+    h1 Register
+    form#registerForm(action='/register', method='POST')
+      input(type='text', name='name', placeholder='Name', required)
+      br
+      input(type='password', name='password', placeholder='Password', required)
+      br
+      input(type='email', name='email', placeholder='Email', required)
+      br
+      input(type='number', name='age', placeholder='Age')
+      br
+      input(type='submit', value='Register')
+    button(onclick='goToLogin()') Go to Login
+    script.
+      function goToLogin() {
+          window.location.href = '/login';
+      }
