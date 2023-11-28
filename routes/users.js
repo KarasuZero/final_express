@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-const path = require('path')
+const bcrypt = require('bcrypt');
 
 
 // Render login form
@@ -53,8 +53,10 @@ router.post('/login', async (req, res) => {
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            // Check if the password is correct
-            if (password === existingUser.password) {
+            // Compare the password using bcrypt
+            const passwordMatch = await bcrypt.compare(password, existingUser.password);
+
+            if (passwordMatch) {
                 // Set session data for the logged-in user
                 req.session.user = existingUser;
                 return res.status(200).json({ message: 'Login successful' });
@@ -82,21 +84,21 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(password, 10); 
+
         // If the email doesn't exist
-        const newUser = new User({ name, password, email, age });
+        const newUser = new User({ name, password: hashedPassword, email, age });
         const savedUser = await newUser.save();
 
         // Set session data for the registered user
         req.session.user = savedUser;
-
-        // Redirect to the dashboard after successful registration
         res.redirect('/dashboard');
 
     } catch (err) {
         return res.status(400).json({ message: err.message });
     }
 });
-
 
 // Logout
 router.get('/logout', (req, res) => {
