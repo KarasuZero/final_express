@@ -22,6 +22,61 @@ router.get('/', (req, res) => {
     }
 });
 
+// Get survey stats
+router.get('/stats', async (req, res) => {
+    try {
+        const surveys = await Survey.find({}, 'answers');
+
+        const formattedStats = {};
+
+        surveys.forEach(survey => {
+            survey.answers.forEach((answer, index) => {
+                const questionId = `Q${index + 1}`;
+
+                if (!formattedStats[questionId]) {
+                    formattedStats[questionId] = {};
+                }
+
+                if (!formattedStats[questionId][answer]) {
+                    formattedStats[questionId][answer] = 0; // Initialize counter for the option
+                }
+
+                formattedStats[questionId][answer]++;
+            });
+        });
+
+        // Fill in missing options with a count of 0 for Q1 and Q2
+        ['Q1', 'Q2'].forEach(question => {
+            const options = ['A', 'B'];
+            options.forEach(option => {
+                if (!formattedStats[question][option]) {
+                    formattedStats[question][option] = 0;
+                }
+            });
+        });
+
+        const question = 'Q3';
+        const optionsQ3 = ['A', 'B', 'C'];
+        optionsQ3.forEach(option => {
+            if (!formattedStats[question][option]) {
+                formattedStats[question][option] = 0;
+            }
+        });
+
+        // Sort options alphabetically within each question
+        for (const questionId in formattedStats) {
+            formattedStats[questionId] = Object.fromEntries(
+                Object.entries(formattedStats[questionId]).sort((a, b) => a[0].localeCompare(b[0]))
+            );
+        }
+
+        res.json(formattedStats);
+    } catch (error) {
+        console.error('Error fetching survey stats:', error);
+        res.status(500).json({ message: 'Error fetching survey stats' });
+    }
+});
+
 // Submit survey
 router.post('/', async (req, res) => {
     try {
