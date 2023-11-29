@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const surveySchema = new mongoose.Schema({
-    username: {
+    email: {
         type: String,
         required: true
     },

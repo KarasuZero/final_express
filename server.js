@@ -33,4 +33,7 @@ app.get('/', (req, res) => {
 const userRouter = require('./routes/users')
 app.use('/', userRouter)
 
+const surveyRouter = require('./routes/surveys')
+app.use('/survey', surveyRouter)
+
 app.listen(4200, () => console.log('Server Started'))

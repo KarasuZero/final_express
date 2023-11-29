@@ -3,10 +3,13 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
-
 // Render login form
 router.get('/login', (req, res) => {
-    res.render('login');
+    if (req.session.user) {
+        res.render('dashboard', { user: req.session.user });
+    } else {
+        res.render('login');
+    }
 });
 
 // Render register form
@@ -93,7 +96,8 @@ router.post('/register', async (req, res) => {
 
         // Set session data for the registered user
         req.session.user = savedUser;
-        res.redirect('/dashboard');
+        
+        res.redirect('/survey/init');
 
     } catch (err) {
         return res.status(400).json({ message: err.message });
@@ -111,5 +115,33 @@ router.get('/logout', (req, res) => {
     });
 });
 
+// Delete user by email and password
+router.delete('/user', async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    try {
+        // Check if the email exists in the database
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            // Compare the password using bcrypt
+            const passwordMatch = await bcrypt.compare(password, existingUser.password);
+
+            if (passwordMatch) {
+                // Delete the user
+                await User.deleteOne({ email });
+                return res.status(200).json({ message: 'User deleted' });
+            } else {
+                return res.status(400).json({ message: 'Incorrect password' });
+            }
+        } else {
+            return res.status(400).json({ message: 'Email does not exist' });
+        }
+    } catch (error) {
+        console.error('Error checking email:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
 
 module.exports = router;

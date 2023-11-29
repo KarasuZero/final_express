@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Survey
+  body
+    h1 Survey Form
+    form(action="/survey", method="post")
+        // Question 1
+        p Question 1: Which do perfer? Cats or dogs?
+        select(name="answers[0].Q1")
+            option(value="A") Cats
+            option(value="B") Dog
+
+        // Question 2
+        p Question 2: Which do perfer? Water or Soda?
+        select(name="answers[1].Q2")
+            option(value="A") Water
+            option(value="B") Soda
+
+        // Question 3
+        p Question 3: What is your faviorte color out of the folloing three?
+        select(name="answers[2].Q3")
+            option(value="A") Blue
+            option(value="B") Red
+            option(value="C") Green
+
+        input(type="submit", value="Submit")
