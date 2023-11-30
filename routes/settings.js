@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Survey = require('../models/survey');
+const bcrypt = require('bcrypt');
 
 // Render settings page and retrieve survey data
 router.get('/', async (req, res) => {
@@ -28,7 +29,7 @@ router.get('/', async (req, res) => {
 // Update user details
 router.patch('/update/user_info', async (req, res) => {
     try {
-        const { name, email, age } = req.body;
+        const { name, email, age, password } = req.body;
 
         if (!req.session.user) {
             return res.status(401).json({ message: 'Unauthorized' });
@@ -45,13 +46,17 @@ router.patch('/update/user_info', async (req, res) => {
             }
         }
 
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(password, 10); 
+
         // Update user details in the database
-        await User.findOneAndUpdate({ email: userEmail }, { name, email, age });
+        await User.findOneAndUpdate({ email: userEmail }, { name, email, age, password: hashedPassword });
 
         // Update session user data with the new information
         req.session.user.name = name;
         req.session.user.email = email;
         req.session.user.age = age;
+        req.session.user.password = password;
 
         return res.status(200).json({ message: 'User details updated successfully' });
     } catch (error) {
