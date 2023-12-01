@@ -3,15 +3,39 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     title Login
+    style.
+      body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0; /* Adjust background color if needed */
+      }
+      .login-box {
+          background-color: #f2f2f2;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          width: 300px; /* Adjust the width as needed */
+      }
+      form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
   body
-    h1 Login
-    form#loginForm(action='/login', method='POST')
-      input(type='email', name='email', placeholder='Email', required)
-      br
-      input(type='password', name='password', placeholder='Password', required)
-      br
-      input(type='submit', value='Login')
-    button(onclick='goToRegister()') Go to Register
+    div.login-box`
+      h1 Login
+      form#loginForm(action='/login', method='POST')
+        input(type='email', name='email', placeholder='Email', required)
+        br
+        input(type='password', name='password', placeholder='Password', required)
+        br
+        input(type='submit', value='Login')
+      button(onclick='goToRegister()') Go to Register
     script.
       function goToRegister() {
           window.location.href = '/register';
