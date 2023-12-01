@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Survey = require('../models/survey');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Render settings page and retrieve survey data
 router.get('/', async (req, res) => {
