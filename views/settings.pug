@@ -3,78 +3,53 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     title Settings
+    style.
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 20px;
+      }
+
+      h1, h2 {
+        color: #333;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      input, select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
     script.
-      function submitUserForm() {
-        var nameInput = document.getElementById('name');
-        var emailInput = document.getElementById('email');
-        var ageInput = document.getElementById('age');
-        var passInput = document.getElementById('password');
+      // ... (Your existing script)
 
-        // Use placeholder as value if input is empty
-        var userDetails = {
-          name: nameInput.value.trim() || nameInput.placeholder,
-          email: emailInput.value.trim() || emailInput.placeholder,
-          age: ageInput.value.trim() || ageInput.placeholder,
-          password: passInput.value.trim() || passInput.placeholder
-        };
-
-        fetch('/settings/update/user_info', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userDetails)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('User details updated:', data.message);
-          document.getElementById('userDetailsMessage').innerText = data.message;
-        })
-        .catch(error => {
-          console.error('Error updating user details:', error);
-          document.getElementById('userDetailsMessage').innerText = 'Failed to update user details';
-        });
-      }
-
-      function submitSurveyForm() {
-        var surveyAnswers = {
-          answers: {
-            0: document.getElementById('Q1').value,
-            1: document.getElementById('Q2').value,
-            2: document.getElementById('Q3').value
-          }
-        };
-
-        fetch('/settings/update/answers', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(surveyAnswers)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('Survey answers updated:', data.message);
-          document.getElementById('surveyAnswersMessage').innerText = data.message;
-        })
-        .catch(error => {
-          console.error('Error updating survey answers:', error);
-          document.getElementById('surveyAnswersMessage').innerText = 'Failed to update survey answers';
-        });
-      }
   body
     h1 Settings
     a(href='/dashboard') Go Back to Dashboard
+
     // User Details Section
     h2 User Details
     form(onsubmit='submitUserForm(); return false;')
@@ -93,7 +68,6 @@ html(lang='en')
       label(for='password') Password:
       input(type='password', id='password', placeholder='Password')
       br
-
 
       button(type='submit') Save User Details
       p#userDetailsMessage
