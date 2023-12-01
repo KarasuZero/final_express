@@ -39,4 +39,5 @@ app.use('/survey', surveyRouter)
 const settingsRouter = require('./routes/settings')
 app.use('/settings', settingsRouter)
 
+// start server
 app.listen(4200, () => console.log('Server Started'))
