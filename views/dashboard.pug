@@ -3,13 +3,57 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     title Dashboard
+    style.
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4; /* Set a light background color */
+        font-family: 'Arial', sans-serif;
+      }
+      #container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff; /* Set a white background color */
+        width: 400px; /* Adjust the width as needed */
+      }
+      h1 {
+        color: #333;
+      }
+      #greeting {
+        margin-bottom: 15px;
+        color: #555;
+      }
+      a {
+        text-decoration: none;
+        color: #3498db; /* Set a link color */
+        margin-right: 10px; /* Add some space between "Settings" and "Logout" */
+      }
+      button {
+        padding: 10px;
+        background-color: #e74c3c; /* Set a red color for the button */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #c0392b; /* Darken the button color on hover */
+      }
   body
-    h1 Welcome to the Dashboard
-    if user
-      div#greeting
-        | Hello, #{user.name}!
-      a(href='/settings') Settings
-      button(onclick='logout()') Logout
+    #container
+      h1 Welcome to the Dashboard
+      if user
+        div#greeting
+          | Hello, #{user.name}!
+        a(href='/settings') Settings
+        |   |   <!-- Add some space between "Settings" and "Logout" -->
+        button(onclick='logout()') Logout
     script.
       function logout() {
           fetch('/logout')

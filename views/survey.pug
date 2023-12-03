@@ -3,26 +3,76 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     title Survey
+    style.
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4; /* Set a light background color */
+        font-family: 'Arial', sans-serif;
+      }
+      #container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff; /* Set a white background color */
+        width: 400px; /* Adjust the width as needed */
+      }
+      h1 {
+        color: #333;
+      }
+      form {
+        text-align: left;
+        margin-top: 15px; /* Add some space between the heading and the form */
+      }
+      p {
+        margin-bottom: 10px; /* Add space between questions */
+      }
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      input[type='submit'] {
+        background-color: #3498db; /* Set a blue color for the submit button */
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input[type='submit']:hover {
+        background-color: #2980b9; /* Darken the button color on hover */
+      }
   body
-    h1 Survey Form
-    form(action="/survey", method="post")
+    #container
+      h1 Survey Form
+      form(action="/survey", method="post")
         // Question 1
-        p Question 1: Which do perfer? Cats or dogs?
+        p Question 1: Which do you prefer? Cats or dogs?
         select(name="answers[0].Q1")
             option(value="A") Cats
-            option(value="B") Dog
+            option(value="B") Dogs
 
         // Question 2
-        p Question 2: Which do perfer? Water or Soda?
+        p Question 2: Which do you prefer? Water or Soda?
         select(name="answers[1].Q2")
             option(value="A") Water
             option(value="B") Soda
 
         // Question 3
-        p Question 3: What is your faviorte color out of the folloing three?
+        p Question 3: What is your favorite color out of the following three?
         select(name="answers[2].Q3")
             option(value="A") Blue
             option(value="B") Red
             option(value="C") Green
 
         input(type="submit", value="Submit")
+        
