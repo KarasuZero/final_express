@@ -3,20 +3,73 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     title Register
-  body
-    h1 Register
-    form#registerForm(action='/register', method='POST')
-      input(type='text', name='name', placeholder='Name', required)
-      br
-      input(type='password', name='password', placeholder='Password', required)
-      br
-      input(type='email', name='email', placeholder='Email', required)
-      br
-      input(type='number', name='age', placeholder='Age')
-      br
-      input(type='submit', value='Register')
-    button(onclick='goToLogin()') Go to Login
+    style.
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4; /* Set a light background color */
+        font-family: 'Arial', sans-serif;
+      }
+      #container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff; /* Set a white background color */
+        width: 400px; /* Adjust the width as needed */
+      }
+      h1 {
+        color: #333;
+      }
+      form {
+        text-align: left;
+        margin-top: 15px; /* Add some space between the heading and the form */
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      input[type='submit'] {
+        background-color: #3498db; /* Set a blue color for the submit button */
+        color: white;
+        cursor: pointer;
+      }
+      input[type='submit']:hover {
+        background-color: #2980b9; /* Darken the button color on hover */
+      }
+      button {
+        background: none;
+        border: none;
+        color: #3498db; /* Set a blue color for the button */
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      button:hover {
+        color: #2980b9; /* Darken the button color on hover */
+      }
+  body 
+    #container
+      h1 Register
+      form#registerForm(action='/register', method='POST')
+        input(type='text', name='name', placeholder='Name', required)
+        br
+        input(type='password', name='password', placeholder='Password', required)
+        br
+        input(type='email', name='email', placeholder='Email', required)
+        br
+        input(type='number', name='age', placeholder='Age')
+        br
+        input(type='submit', value='Register')
+      button(onclick='goToLogin()') Go to Login
     script.
       function goToLogin() {
           window.location.href = '/login';
-      }
+      } 
