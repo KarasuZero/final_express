@@ -54,13 +54,65 @@ html(lang='en')
         a(href='/settings') Settings
         |   |   <!-- Add some space between "Settings" and "Logout" -->
         button(onclick='logout()') Logout
+      canvas#graphQ1(width='400', height='200')
+      canvas#graphQ2(width='400', height='200')
+      canvas#graphQ3(width='400', height='200')
     script.
+      document.addEventListener('DOMContentLoaded', function () {
+        const apiEndpoint = 'http://localhost:4200/survey/stats';
+
+        function fetchData() {
+          fetch(apiEndpoint)
+            .then(response => response.json())
+            .then(data => {
+              drawGraph('Question 1: Which do you prefer? Cats or dogs?', data['Q1'], 'graphQ1', ['Cats', 'Dogs']);
+              drawGraph('Question 2: Which do you prefer? Water or Soda?', data['Q2'], 'graphQ2', ['Water', 'Soda']);
+              drawGraph('Question 3: What is your favorite color out of the following three?', data['Q3'], 'graphQ3', ['Blue', 'Red', 'Green']);
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        }
+
+        function drawGraph(question, answers, canvasId, options) {
+          const canvas = document.getElementById(canvasId);
+          const ctx = canvas.getContext('2d');
+
+          const labels = Object.keys(answers);
+          const values = Object.values(answers);
+
+          const barWidth = canvas.width / labels.length;
+          let startX = 0;
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          ctx.font = '12px Arial';
+
+          const colors = ['#3498db', '#2ecc71', '#e74c3c', '#9b59b6']; // Different colors for options
+
+          for (let i = 0; i < labels.length; i++) {
+            const barHeight = (values[i] / Math.max(...values)) * canvas.height * 0.8;
+            const barColor = colors[i % colors.length]; // Cycle through colors for options
+            ctx.fillStyle = barColor;
+            ctx.fillRect(startX, canvas.height - barHeight, barWidth - 5, barHeight);
+            ctx.fillStyle = '#333'; // Text color
+            ctx.fillText(`${options[i]}: ${values[i]}`, startX, canvas.height - barHeight - 5);
+            startX += barWidth;
+          }
+
+          ctx.fillStyle = '#333';
+          ctx.fillText(question, 10, 20);
+        }
+
+        fetchData();
+      });
+
       function logout() {
-          fetch('/logout')
-              .then(() => {
-                  window.location.href = '/login';
-              })
-              .catch((err) => {
-                  console.error('Error logging out:', err);
-              });
+        fetch('/logout')
+          .then(() => {
+            window.location.href = '/login';
+          })
+          .catch((err) => {
+            console.error('Error logging out:', err);
+          });
       }
